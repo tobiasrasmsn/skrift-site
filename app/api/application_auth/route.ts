@@ -22,8 +22,9 @@ export async function POST(request: Request) {
         }
 
         // Step 2: Check if the key is already used
-        if (keyData.is_used) {
-            return NextResponse.json({ valid: false, message: "Serial key is already used." });
+        if (keyData.is_used && keyData.machine_id !== machineId) {
+            // If already used and machine ID doesn't match, it's invalid
+            return NextResponse.json({ valid: false, message: "Serial key is already used by another machine." });
         }
 
         // Step 3: Update the serial key to mark as used and set machine_id
