@@ -9,6 +9,10 @@ export async function POST(request: Request) {
     try {
         const { serialKey, machineId } = await request.json();
 
+        if (!serialKey || !machineId) {
+            return NextResponse.json({ valid: false, message: "Serial key or machine ID is missing." });
+        }
+
         // Step 1: Fetch serial key from the database
         const { data: keyData, error: fetchError } = await supabase
             .from("serial_keys")
@@ -28,13 +32,13 @@ export async function POST(request: Request) {
         }
 
         // Step 3: Update the serial key to mark as used and set machine_id
-        const { error: updateError } = await supabase
+        const { data, error: updateError } = await supabase
             .from("serial_keys")
             .update({ is_used: true, machine_id: machineId })
             .eq("serial_key", serialKey);
 
         if (updateError) {
-            console.error("Error updating serial key:", updateError);
+            console.error("Error updating serial key:", updateError); // Log the actual error for debugging
             return NextResponse.json({ valid: false, message: "Failed to update serial key." });
         }
 
