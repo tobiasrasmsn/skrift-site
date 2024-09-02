@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Navigation() {
     return (
-        <header className="absolute w-full pt-2 py-3 px-3 z-[100]">
+        <header className="absolute w-full pt-2 py-3 px-1 md:px-3 z-[100]">
             <div className="w-full bg-zinc-50 py-3 px-4 rounded-xl flex flex-row justify-between items-center">
                 <Image src={"/imgs/skrifticon.png"} alt="" width={100} height={50} priority unoptimized />
                 <nav>
