@@ -31,7 +31,7 @@ export default function Home() {
                         From words to visuals, bring your ideas to <br /> life with our all-in-one creative solution.
                     </p>
                     <div className="flex flex-row gap-4 items-center z-20">
-                        <Button className="text-xs md:text-sm">Get Started</Button>
+                        <Button className="text-xs md:text-sm">Download</Button>
                         <Button className="text-xs md:text-sm">Read More</Button>
                     </div>
                     {/* <TextHoverEffect text="ACET" /> */}{" "}
