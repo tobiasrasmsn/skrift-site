@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         const isTest = formData.get("test") === "true"; // Check if this is a test request
 
         // Mock data for testing
-        const mockEmail = "testuser@example.com";
+        const mockEmail = "testuser2@example.com";
         const mockPin = "1234";
 
         let emailToUse = saleEmail;
@@ -38,7 +38,6 @@ export async function POST(request: Request) {
         const { data: availableKey, error: fetchError } = await supabase
             .from("serial_keys")
             .select("*")
-            .eq("is_used", false)
             .limit(1)
             .single();
 
@@ -50,7 +49,7 @@ export async function POST(request: Request) {
         // Step 2: Store the email and PIN (mock or real) in the serial key entry and mark as used
         const { data: updatedKey, error: updateError } = await supabase
             .from("serial_keys")
-            .update({ is_used: true, sale_id: saleId, email: emailToUse, pin: pinToUse })
+            .update({ sale_id: saleId, email: emailToUse, pin: pinToUse })
             .eq("serial_key", availableKey.serial_key);
 
         if (updateError) {
