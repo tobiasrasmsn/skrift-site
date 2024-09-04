@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={plus_jakarta_sans.className}>
+            <body className={`${plus_jakarta_sans.className} bg-zinc-200`}>
                 <ThemeProvider defaultTheme="dark" attribute="class">
                     <Navigation />
                     {children}

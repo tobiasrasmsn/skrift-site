@@ -20,6 +20,28 @@
     .text-balance {
         text-wrap: balance;
     }
+    .custom-scrollbar {
+        /* width */
+        scrollbar-width: thin;
+        scrollbar-color: #434349 #27272a;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #27272a;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #434349;
+        border-radius: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 }
 
 @layer base {
@@ -89,4 +111,26 @@
 .spotlight {
     background: radial-gradient(circle at 50% -20%, rgba(235, 237, 255, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
     background-color: transparent;
+}
+.spotlight2 {
+    background: radial-gradient(circle at 50% -20%, rgba(235, 237, 255, 0.4) 0%, rgba(0, 0, 0, 0) 40%);
+    background-color: transparent;
+}
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #e4e4e7;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

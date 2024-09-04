@@ -19,11 +19,11 @@ export default function Home() {
                         )}
                     >
                         <AnimatedShinyText className="inline-flex text-sm items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-                            <span>✨ Faceless Content Tool</span>
+                            <span>✨ Faceless Content Suite</span>
                             <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
                         </AnimatedShinyText>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-bold text-zinc-100 text-center z-20">
+                    <h1 className="text-4xl md:text-5xl font-bold text-zinc-100 text-center z-20">
                         The One Suite <br />
                         You&apos;ll Ever Need
                     </h1>
@@ -83,6 +83,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
             {/* <section className="px-3 py-3 pt-[80px] flex justify-center items-center h-[100dvh] min-h-[500px] bg-zinc-200 relative">
                 <div className="relative w-full h-[720px]">
                     <Image
