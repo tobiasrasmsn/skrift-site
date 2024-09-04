@@ -11,20 +11,30 @@ export async function POST(request: Request) {
         const formData = await request.formData();
         const saleEmail = formData.get("email") as string;
         const saleId = formData.get("sale_id") as string;
+        const customFields = formData.get("custom_fields"); // Custom fields come in JSON format
+        const isTest = formData.get("test") === "true"; // Check if this is a test request
 
-        // Check if email and sale_id are present
-        if (!saleEmail || !saleId) {
-            return NextResponse.json({ message: "Email or sale_id is missing." }, { status: 400 });
+        // Mock data for testing
+        const mockEmail = "testuser@example.com";
+        const mockPin = "1234";
+
+        let emailToUse = saleEmail;
+        let pinToUse: string;
+
+        // If it's a test request, use mock email and PIN
+        if (isTest) {
+            emailToUse = mockEmail;
+            pinToUse = mockPin;
+        } else {
+            // Parse custom fields to extract the PIN in normal (non-test) scenarios
+            try {
+                pinToUse = JSON.parse(customFields as string)["PIN"];
+            } catch (e) {
+                return NextResponse.json({ message: "Invalid custom fields format" }, { status: 400 });
+            }
         }
 
-        // Step 1: Verify the sale using email and sale_id with Gumroad's API
-        const isValid = await verifySale(saleEmail, saleId);
-
-        if (!isValid) {
-            return NextResponse.json({ message: "Verification failed." }, { status: 401 });
-        }
-
-        // Step 2: Fetch an available serial key from Supabase
+        // Step 1: Fetch an available serial key from Supabase
         const { data: availableKey, error: fetchError } = await supabase
             .from("serial_keys")
             .select("*")
@@ -37,10 +47,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "No keys available or error occurred." }, { status: 404 });
         }
 
-        // Step 3: Mark the key as issued in Supabase
+        // Step 2: Store the email and PIN (mock or real) in the serial key entry and mark as used
         const { data: updatedKey, error: updateError } = await supabase
             .from("serial_keys")
-            .update({ is_used: true, sale_id: saleId })
+            .update({ is_used: true, sale_id: saleId, email: emailToUse, pin: pinToUse })
             .eq("serial_key", availableKey.serial_key);
 
         if (updateError) {
@@ -48,38 +58,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Failed to update serial key." }, { status: 500 });
         }
 
-        // Step 4: Return the key to Gumroad's server
-        return NextResponse.json({ key: availableKey.serial_key });
+        // Step 3: Return success response to Gumroad's server
+        return NextResponse.json({ message: "Serial key assigned successfully." });
     } catch (error) {
         console.error("Error handling Gumroad Ping:", error);
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
-    }
-}
-
-// Example function to verify the sale by email and sale_id (to be implemented)
-async function verifySale(email: string, saleId: string): Promise<boolean> {
-    // Implement actual logic to verify the sale using Gumroad's API
-
-    try {
-        // Example: Replace this with an actual API call to Gumroad's endpoint to verify the sale_id
-        const response = await fetch("https://api.gumroad.com/v2/sales", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${process.env.GUMROAD_ACCESS_TOKEN}`, // Make sure to set this in your environment variables
-            },
-        });
-
-        if (!response.ok) {
-            console.error("Error verifying sale with Gumroad API");
-            return false;
-        }
-
-        const data = await response.json();
-
-        // Check if the sale_id and email match
-        return data.sales.some((sale: any) => sale.id === saleId && sale.email === email);
-    } catch (error) {
-        console.error("Error in sale verification:", error);
-        return false;
     }
 }
