@@ -124,7 +124,7 @@ export default function BuyPage() {
                                 <CardContent className="pt-6">
                                     <p className="italic mb-4 text-zinc-300">
                                         &quot;Skrift Suite has revolutionized my writing process. It&apos;s like having
-                                        a personal editor and writing coach available 24/7."
+                                        a personal editor and writing coach available 24/7.
                                     </p>
                                     <p className="font-bold text-zinc-100">- Happy Customer {i}</p>
                                 </CardContent>
