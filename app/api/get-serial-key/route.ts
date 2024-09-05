@@ -26,7 +26,20 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Invalid email." }, { status: 404 });
         }
 
-        // Step 2: Return the serial key
+        // Step 2: Check if the current date is within 3 days of the created_at timestamp
+        const createdAt = new Date(keyData.created_at); // Assuming created_at is a valid timestamp
+        const currentDate = new Date();
+        const diffInMilliseconds = currentDate.getTime() - createdAt.getTime();
+        const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+
+        if (diffInDays > 3) {
+            return NextResponse.json(
+                { message: "The serial key can only be retrieved within 3 days of purchase." },
+                { status: 403 }
+            );
+        }
+
+        // Step 3: Return the serial key
         return NextResponse.json({ serialKey: keyData.serial_key });
     } catch (error) {
         console.error("Error fetching serial key:", error);
