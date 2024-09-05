@@ -10,8 +10,8 @@ export async function POST(request: Request) {
         const { email, pin } = await request.json();
 
         // Check if email and PIN are provided
-        if (!email || !pin) {
-            return NextResponse.json({ message: "Email or PIN is missing." }, { status: 400 });
+        if (!email) {
+            return NextResponse.json({ message: "Email is missing." }, { status: 400 });
         }
 
         // Step 1: Fetch the serial key associated with the email and PIN
@@ -19,7 +19,6 @@ export async function POST(request: Request) {
             .from("serial_keys")
             .select("*")
             .eq("email", email)
-            .eq("pin", pin)
             .single();
 
         if (fetchError || !keyData) {

@@ -1,7 +1,14 @@
 // app/welcome/page.tsx
 "use client";
 
+import ShinyButton from "@/components/magicui/shiny-button";
+import SparklesText from "@/components/magicui/sparkles-text";
+import { Button } from "@/components/ui/button";
+import FlickeringGrid from "@/components/ui/flickering-grid";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function WelcomePage() {
     const [email, setEmail] = useState("");
@@ -28,6 +35,10 @@ export default function WelcomePage() {
             if (!response.ok) {
                 const { message } = await response.json();
                 setError(message || "Error retrieving serial key.");
+                toast.error("Error retrieving serial key.", {
+                    description:
+                        "There was an error retrieving your serial key. Make sure to use the same email you use on Gumroad and the correct PIN.",
+                });
                 setLoading(false); // Hide loading state
                 return;
             }
@@ -42,35 +53,73 @@ export default function WelcomePage() {
     };
 
     return (
-        <div
-            className="flex flex-col min-h-screen justify-center items-center"
-            style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}
-        >
-            <h1>Welcome! Retrieve Your Serial Key</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Enter your Gumroad email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
-                />
-                <input
-                    type="text"
-                    placeholder="Enter your PIN"
-                    value={pin}
-                    onChange={(e) => setPin(e.target.value)}
-                    required
-                    style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
-                />
-                <button type="submit" disabled={loading} style={{ width: "100%", padding: "10px" }}>
-                    {loading ? "Loading..." : "Retrieve Serial Key"}
-                </button>
-            </form>
+        <main className="">
+            <section className="px-1 md:px-3 py-3 pt-[80px] flex justify-center items-center h-[100dvh] min-h-[500px] bg-zinc-200 relative">
+                <div className="flex flex-col justify-center items-center w-full h-full rounded-xl bg-zinc-950 gap-3 relative">
+                    <div className="spotlight w-full h-full absolute opacity-65 pointer-events-none"></div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {serialKey && <p style={{ color: "green", fontWeight: "bold" }}>Your Serial Key: {serialKey}</p>}
-        </div>
+                    {/* Conditional Rendering: Show Welcome Message and Form only if serialKey is not set */}
+                    {!serialKey ? (
+                        <>
+                            <h1 className="text-5xl font-medium">Welcome to Skrift</h1>
+                            <p className="text-zinc-400 text-base text-center">
+                                Please provide the info requested below in order <br />
+                                to retrieve your PIN code and download link.
+                            </p>
+                            <form
+                                onSubmit={handleSubmit}
+                                className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl flex flex-col gap-1 w-[400px] z-40"
+                            >
+                                <Input
+                                    type="email"
+                                    placeholder="Gumroad Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
+                                />
+                                <Input
+                                    type="text"
+                                    placeholder="4-Digit PIN"
+                                    value={pin}
+                                    maxLength={4}
+                                    onChange={(e) => setPin(e.target.value)}
+                                    required
+                                    style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
+                                />
+                                <Button type="submit" disabled={loading} style={{ width: "100%", padding: "10px" }}>
+                                    {loading ? "Loading..." : "Retrieve Serial Key"}
+                                </Button>
+                            </form>
+
+                            {/* {error && <p className="text-red-500">{error}</p>} */}
+                        </>
+                    ) : (
+                        // Success State: Show Serial Key and Download Button
+                        <div className="text-center flex flex-col gap-3">
+                            <SparklesText text={serialKey} className="text-2xl" />
+                            <Button asChild size={"sm"}>
+                                <Link href={"/"}>Download Skrift</Link>
+                            </Button>
+                            <p className="text-zinc-400 text-base text-center">
+                                This serial key is valid for one PC only. Keep this <br />
+                                page open until you have unlocked the app.
+                            </p>
+                        </div>
+                    )}
+
+                    <div className="absolute z-0 opacity-5 h-full w-full rounded-lg bg-background overflow-hidden pointer-events-none">
+                        <FlickeringGrid
+                            className="z-0 absolute inset-0 size-full"
+                            squareSize={12}
+                            gridGap={1}
+                            color="#6B7280"
+                            maxOpacity={0.5}
+                            flickerChance={0.2}
+                        />
+                    </div>
+                </div>
+            </section>
+        </main>
     );
 }

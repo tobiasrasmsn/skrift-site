@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navigation from "@/components/shared/Navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 const plus_jakarta_sans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
                 <ThemeProvider defaultTheme="dark" attribute="class">
                     <Navigation />
                     {children}
+                    <Toaster richColors />
                 </ThemeProvider>
             </body>
         </html>
