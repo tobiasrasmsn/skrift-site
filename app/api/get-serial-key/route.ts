@@ -7,14 +7,14 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env
 
 export async function POST(request: Request) {
     try {
-        const { email, pin } = await request.json();
+        const { email } = await request.json();
 
-        // Check if email and PIN are provided
+        // Check if email is provided
         if (!email) {
             return NextResponse.json({ message: "Email is missing." }, { status: 400 });
         }
 
-        // Step 1: Fetch the serial key associated with the email and PIN
+        // Step 1: Fetch the serial key associated with the email
         const { data: keyData, error: fetchError } = await supabase
             .from("serial_keys")
             .select("*")
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
         if (fetchError || !keyData) {
             console.error("Error fetching serial key:", fetchError);
-            return NextResponse.json({ message: "Invalid email or PIN." }, { status: 404 });
+            return NextResponse.json({ message: "Invalid email." }, { status: 404 });
         }
 
         // Step 2: Return the serial key

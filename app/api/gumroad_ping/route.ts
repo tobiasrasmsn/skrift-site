@@ -11,33 +11,23 @@ export async function POST(request: Request) {
         const formData = await request.formData();
         const saleEmail = formData.get("email") as string;
         const saleId = formData.get("sale_id") as string;
-        const customFields = formData.get("custom_fields"); // Custom fields come in JSON format
         const isTest = formData.get("test") === "true"; // Check if this is a test request
 
         // Mock data for testing
         const mockEmail = "testuser2@example.com";
-        const mockPin = "1234";
 
         let emailToUse = saleEmail;
-        let pinToUse: string;
 
-        // If it's a test request, use mock email and PIN
+        // If it's a test request, use mock email
         if (isTest) {
             emailToUse = mockEmail;
-            pinToUse = mockPin;
-        } else {
-            // Parse custom fields to extract the PIN in normal (non-test) scenarios
-            try {
-                pinToUse = JSON.parse(customFields as string)["PIN"];
-            } catch (e) {
-                return NextResponse.json({ message: "Invalid custom fields format" }, { status: 400 });
-            }
         }
 
         // Step 1: Fetch an available serial key from Supabase
         const { data: availableKey, error: fetchError } = await supabase
             .from("serial_keys")
             .select("*")
+            .eq("is_used", false) // Ensure only unused keys are fetched
             .limit(1)
             .single();
 
@@ -46,10 +36,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "No keys available or error occurred." }, { status: 404 });
         }
 
-        // Step 2: Store the email and PIN (mock or real) in the serial key entry and mark as used
+        // Step 2: Store the email (mock or real) and sale_id in the serial key entry without marking it as used
         const { data: updatedKey, error: updateError } = await supabase
             .from("serial_keys")
-            .update({ sale_id: saleId, email: emailToUse, pin: pinToUse })
+            .update({ sale_id: saleId, email: emailToUse })
             .eq("serial_key", availableKey.serial_key);
 
         if (updateError) {

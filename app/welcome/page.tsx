@@ -12,7 +12,6 @@ import { toast } from "sonner";
 
 export default function WelcomePage() {
     const [email, setEmail] = useState("");
-    const [pin, setPin] = useState("");
     const [serialKey, setSerialKey] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -29,7 +28,7 @@ export default function WelcomePage() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, pin }),
+                body: JSON.stringify({ email }),
             });
 
             if (!response.ok) {
@@ -37,7 +36,7 @@ export default function WelcomePage() {
                 setError(message || "Error retrieving serial key.");
                 toast.error("Error retrieving serial key.", {
                     description:
-                        "There was an error retrieving your serial key. Make sure to use the same email you use on Gumroad and the correct PIN.",
+                        "There was an error retrieving your serial key. Make sure to use the same email you use on Gumroad.",
                 });
                 setLoading(false); // Hide loading state
                 return;
@@ -64,7 +63,7 @@ export default function WelcomePage() {
                             <h1 className="text-5xl font-medium">Welcome to Skrift</h1>
                             <p className="text-zinc-400 text-base text-center">
                                 Please provide the info requested below in order <br />
-                                to retrieve your PIN code and download link.
+                                to retrieve your serial key and download link.
                             </p>
                             <form
                                 onSubmit={handleSubmit}
@@ -78,15 +77,7 @@ export default function WelcomePage() {
                                     required
                                     style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
                                 />
-                                <Input
-                                    type="text"
-                                    placeholder="4-Digit PIN"
-                                    value={pin}
-                                    maxLength={4}
-                                    onChange={(e) => setPin(e.target.value)}
-                                    required
-                                    style={{ display: "block", width: "100%", marginBottom: "10px", padding: "10px" }}
-                                />
+
                                 <Button type="submit" disabled={loading} style={{ width: "100%", padding: "10px" }}>
                                     {loading ? "Loading..." : "Retrieve Serial Key"}
                                 </Button>
