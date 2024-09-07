@@ -22,38 +22,38 @@ import Link from "next/link";
 export default function BuyPage() {
     const features = [
         {
-            title: "Built for developers",
-            description: "Built for engineers, developers, dreamers, thinkers and doers.",
+            title: "Built for creators",
+            description: "Built for YouTubers, Tik Tokers, Instagrammers, thinkers and doers.",
             icon: <IconTerminal2 />,
         },
         {
             title: "Ease of use",
-            description: "It's as easy as using an Apple, and as expensive as buying one.",
+            description: "It's as easy as using an Apple, and fully automatic.",
             icon: <IconEaseInOut />,
         },
         {
             title: "Pricing like no other",
-            description: "Our prices are best in the market. No cap, no lock, no credit card required.",
+            description: "Our prices are best in the market.",
             icon: <IconCurrencyDollar />,
         },
         {
             title: "100% Uptime guarantee",
-            description: "We just cannot be taken down by anyone.",
+            description: "Runs on your own system, so no need to rely on anyone else.",
             icon: <IconCloud />,
         },
         {
-            title: "Multi-tenant Architecture",
-            description: "You can simply share passwords instead of buying new seats",
+            title: "Do it all. All at one place.",
+            description: "You can generate documentaries, translate, transcribe, auto-caption.",
             icon: <IconRouteAltLeft />,
         },
         {
-            title: "24/7 Customer Support",
-            description: "We are available a 100% of the time. Atleast our AI Agents are.",
+            title: "Lifetime Access*",
+            description: "You get lifetime access to Skrift, including it's updates.",
             icon: <IconHelp />,
         },
         {
             title: "Money back guarantee",
-            description: "If you donot like EveryAI, we will convince you to like us.",
+            description: "If you donot like Skrift, we will convince you to like us.",
             icon: <IconAdjustmentsBolt />,
         },
         {
@@ -65,7 +65,7 @@ export default function BuyPage() {
 
     return (
         <section className="px-1 md:px-3 py-3 pt-[80px] flex justify-center items-center h-full min-h-[500px] bg-zinc-200 relative">
-            <div className="flex flex-col px-24 py-24 justify-center items-center w-full h-full rounded-xl bg-zinc-950 gap-3 relative">
+            <div className="flex flex-col px-8 md:px-24 py-24 justify-center items-center w-full h-full rounded-xl bg-zinc-950 gap-3 relative">
                 <div className="spotlight2 w-full h-full absolute opacity-45 pointer-events-none"></div>
                 <div className="text-center mb-16">
                     <h1 className="text-5xl font-bold mb-4 text-zinc-100">
@@ -93,8 +93,8 @@ export default function BuyPage() {
                     </div> */}
                     <Skrift />
                 </div>
-                <div className="bg-zinc-900 border border-zinc-800 p-4 py-0 rounded-lg z-40">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  relative z-10 py-10 max-w-7xl mx-auto">
+                <div className="bg-zinc-900 border border-zinc-800 p-4 py-0 rounded-lg z-40 w-full mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  relative z-10 py-10 w-full">
                         {features.map((feature, index) => (
                             <Feature key={feature.title} {...feature} index={index} />
                         ))}

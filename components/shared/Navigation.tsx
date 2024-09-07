@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Navigation() {
     return (
         <header className="absolute w-full pt-2 py-3 px-1 md:px-3 z-[100] ">
-            <div className="w-full bg-zinc-50 py-3 px-4 rounded-xl flex flex-row justify-between items-center shadow-md">
+            <div className="w-full bg-zinc-100 py-3 px-4 rounded-xl flex flex-row justify-between items-center shadow-md">
                 <Image
                     className="pointer-events-none"
                     src={"/imgs/skrifticon.png"}
@@ -21,10 +21,10 @@ export default function Navigation() {
                             <Link href={"/"}>Home</Link>
                         </li>
                         <li className="hover:text-zinc-900 transition-colors duration-200">
-                            <Link href={"/"}>About</Link>
+                            <Link href={"/welcome"}>About</Link>
                         </li>
                         <li className="hover:text-zinc-900 transition-colors duration-200">
-                            <Link href={"/"}>Pricing</Link>
+                            <Link href={"/ee"}>Pricing</Link>
                         </li>
                         <Button
                             size="sm"
