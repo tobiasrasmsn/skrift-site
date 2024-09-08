@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Play, XIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { BorderBeam } from "./border-beam";
 
 type AnimationStyle =
     | "from-bottom"

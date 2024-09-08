@@ -1,21 +1,8 @@
-"use client";
-import Link from "next/link";
-import { useEffect } from "react";
-
 export default function Skrift() {
-    useEffect(() => {
-        // Ensure Gumroad embed script is added to the page
-        const script = document.createElement("script");
-        script.src = "https://gumroad.com/js/gumroad.js";
-        script.async = true;
-        document.body.appendChild(script);
-    }, []);
-
     return (
         <div>
             <a
                 href={"https://aretestudio.gumroad.com/l/skrift"}
-                data-gumroad-overlay-checkout="true"
                 className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-sm font-medium leading-6  text-white inline-block"
             >
                 <span className="absolute inset-0 overflow-hidden rounded-full">
